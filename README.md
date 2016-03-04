@@ -7,7 +7,7 @@ The PXaaS Dashboard enables a user, who acts as the network administrator of his
 REQUIREMENTS
 ------------
 
-* [Proxy Build configuration](https://github.com/dimosthe/proxy-build) deploys the development environment which eventually deploys the PXaaS Dashboard as well.
+* [Proxy Build configuration](https://github.com/T-NOVA/Squid-dashboard) deploys the development environment which eventually deploys the PXaaS Dashboard as well.
 
 Versions
 --------
