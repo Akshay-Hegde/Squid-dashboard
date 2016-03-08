@@ -14,7 +14,7 @@
     - CPU usage for the last 5 minutes
 '''
 import argparse
-from influxdb import InfluxDBClient
+#from influxdb import InfluxDBClient
 from parsesquid import Squidclient
 import time
 import sys
@@ -34,24 +34,22 @@ def get_uuid():
 ''' Sends metrics to influxdb at specified host and port '''
 class Monitoring(object):
 
-    def __init__(self, host='emonitoring.sisyphus.mnl', port=8086, username='stats_user',
-            password='tnova', db_name='statsdb'):
+    def __init__(self, host='emonitoring.sisyphus.mnl', port=8086, username='stats_user', password='tnova', db_name='statsdb'):
         self.client = InfluxDBClient(host, port, username, password, db_name)
 
-
-    def send_metric(self, name, value) :
-                json_body = [
-                {
-                    "measurement": name,
-                    "tags": {
-                        "host": get_uuid()
-                        },
-                    "fields": {
-                        "value": value
-                        }
-                    }
-                ]
-                self.client.write_points(json_body)
+    def send_metric(self, name, value):
+        json_body = [
+        {
+            "measurement": name,
+            "tags": {
+                "host": get_uuid()
+                },
+            "fields": {
+                "value": value
+                }
+            }
+        ]
+        self.client.write_points(json_body)
 
 if __name__ == '__main__':
     dir_path = os.path.dirname(os.path.abspath(__file__))    
@@ -89,15 +87,15 @@ if __name__ == '__main__':
             if diff_http < 0:
                 diff_http = 0
 
-            shell.send_metric('httpnum', str(diff_http))
-            shell.send_metric('hits', hits_percentage[:-1])
-            shell.send_metric('hits_bytes', hits_percentage_bytes[:-1])
-            shell.send_metric('memoryhits', memory_hits[:-1])
-            shell.send_metric('diskhits', disk_hits[:-1])
-            shell.send_metric('cachediskutilization', cache_disk_utilization[:-6])
-            shell.send_metric('cachememkutilization', cache_memory_utilization[:-6])
-            shell.send_metric('usernum', number_of_users)
-            shell.send_metric('cpuusage', cpu_usage[:-1])
+            shell.send_metric('httpnum', int(diff_http))
+            shell.send_metric('hits', float(hits_percentage[:-1]))
+            shell.send_metric('hits_bytes', float(hits_percentage_bytes[:-1]))
+            shell.send_metric('memoryhits', float(memory_hits[:-1]))
+            shell.send_metric('diskhits', float(disk_hits[:-1]))
+            shell.send_metric('cachediskutilization', float(cache_disk_utilization[:-6]))
+            shell.send_metric('cachememkutilization', float(cache_memory_utilization[:-6]))
+            shell.send_metric('usernum', int(number_of_users))
+            shell.send_metric('cpuusage', float(cpu_usage[:-1]))
             f.write("time: "+datetime.now().strftime('%Y-%m-%d %H:%M:%S')+"\n")
             f.write("Number of HTTP requests received: "+str(diff_http)+"\n")
             f.write("Hits as % of all requests: "+hits_percentage[:-1]+"\n")
