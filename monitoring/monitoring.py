@@ -14,7 +14,7 @@
     - CPU usage for the last 5 minutes
 '''
 import argparse
-#from influxdb import InfluxDBClient
+from influxdb import InfluxDBClient
 from parsesquid import Squidclient
 import time
 import sys
