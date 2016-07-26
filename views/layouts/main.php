@@ -236,7 +236,7 @@ CustomAsset::register($this);
     
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 1.0
+                <b>Version</b> 1.1
             </div>
             <strong>&copy; T-NOVA <?= date('Y') ?>.  All rights reserved.
         </footer>
