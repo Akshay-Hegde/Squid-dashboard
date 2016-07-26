@@ -1,22 +1,31 @@
-PXaaS Dashboard
-============================
+# PXaaS dashboard
 
-The PXaaS Dashboard enables a user, who acts as the network administrator of his LAN, to configure the Squid Proxy on demand. The configuration parameters are stored in a MySql Database. In order for a new configuration to take effect, the squid.conf and squidGuard.conf files are modified accordingly by the apache process (after a Squid restart is performed by the user).    
+The PXaaS dashboard enables the configuration of the Squid proxy on demand.
+The configuration parameters are stored in a MySQL database.
+For a new configuration to take effect, the `squid.conf` and `squidGuard.conf` files are
+modified accordingly by the `apache2` process and a restart of the `squid3` service puts
+these in effect.
 
 
-REQUIREMENTS
-------------
+## Requirements
 
-* [Proxy Build configuration](https://github.com/T-NOVA/proxy-build) deploys the development environment which eventually deploys the PXaaS Dashboard as well.
+* [Virtual proxy build](https://github.com/T-NOVA/proxy-build) deployed on a host
 
-Versions
---------
 
-version 1. Features:
+## Changelog
 
-* User management: User accounts can be created with a username and password. Those accounts are used to access the proxy services.
-* Access control: Users must enter their credentials in their browsers in order to surf the web.
-* Bandwidth limitations: Group of users can be created with a shared amount of bandwidth. In this case bandwidth limitations can be introduced to a group of users.
-* Website filtering: Group of users can be created with restricted access to a list of websites. Pre-defined lists with urls are provided.
-* Web caching: Web caching can be enabled in order to cache web content and improve response time.
-* User Anonymity: Users can surf the web anonymously.
+v1.1  Bugfix
+
+  Fixes:
+  * Uses new blacklist sources
+  * Bulk blacklist import to speed up deployment
+
+v1.0  Initial release
+
+  New features:
+  * User management: Creation of user accounts for providing access to proxy services.
+  * Access control: Users must enter their credentials in their browsers in order to surf the web.
+  * Bandwidth limitation: Bandwidth limitations can be introduced to a group of users.
+  * Website filtering: Restricted access to a list of websites for a group of users. Pre-defined lists with urls are provided.
+  * Web caching: Cache web content and improve response time.
+  * User anonymity: Users can surf the web anonymously.
