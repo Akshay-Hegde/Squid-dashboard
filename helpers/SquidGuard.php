@@ -3,6 +3,8 @@
  * Helper for editting SquidGuard's configuration file
  *
  * @author George Dimosthenous, Savvas Charalambides
+ * @author Alexander Phinikarides
+ *
  */
 
 namespace app\helpers;
@@ -14,7 +16,7 @@ use app\models\User;
 class SquidGuard
 {
 	const SQUIDGUARD_CONF = '/etc/squidguard/squidGuard.conf';
-	const SQUIDGUARD_DEFAULT_CONF = '/home/proxyvnf/dashboard/Squid-dashboard/SquidGuard/squidGuard.conf';
+	const SQUIDGUARD_DEFAULT_CONF = '/home/proxyvnf/dashboard/squidguard/squidGuard.conf';
 	const FILTERING_GROUP_SPECIFICATION_TEMPLATE = "src %s{\n\tuser %s \n}\n";
 	const FILTERING_GROUP_ACL_TEMPLATE = "\t%s { \n\t\tpass %s all \n\t\tredirect http://localhost/squid/denied?\n\t}\n";
 	
@@ -58,34 +60,34 @@ class SquidGuard
 	}
 	
 	/**
-	 * Starts SquidGurad server
+	 * Starts Squid server
 	 * @return string
 	 */
 	public static function start()
 	{
-		$status = shell_exec('sudo service squidguard start');
+		$status = shell_exec('sudo systemctl start squid3');
 	
 		return $status;
 	}
 	
 	/**
-	 * Stops SquidGuard server
+	 * Stops Squid server
 	 * @return string
 	 */
 	public static function stop()
 	{
-		$status = shell_exec('sudo service squidguard stop');
+		$status = shell_exec('sudo systemctl stop squid3');
 	
 		return $status;
 	}
 	
 	/**
-	 * Restarts SquidGuard server
+	 * Restarts Squid server
 	 * @return string
 	 */
 	public static function restart()
 	{
-		$status = shell_exec('sudo service squidguard restart');
+		$status = shell_exec('sudo systemctl restart squid3');
 	
 		return $status;
 	}

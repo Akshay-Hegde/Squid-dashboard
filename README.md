@@ -14,6 +14,18 @@ these in effect.
 
 ## Changelog
 
+v1.2  Update
+
+  Enhancements:
+  * added more blacklists
+  * adapted to Debian Jessie
+  * updated yii to v2.0.5
+
+  Fixes:
+  * fixed the migration table creation
+  * uniform user information
+  * removed debugging code
+
 v1.1  Bugfix
 
   Fixes:

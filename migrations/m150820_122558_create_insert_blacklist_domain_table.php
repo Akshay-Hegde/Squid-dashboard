@@ -21,17 +21,36 @@ class m150820_122558_create_insert_blacklist_domain_table extends Migration
 
     // Define the blacklist types
     $blType = [
-      ['adult', 1],
-      ['aggressive', 2],
-      ['audio-video', 3],
-      ['drugs', 4],
-      ['mixed_adult', 5],
-      ['violence', 6],
-      ['porn', 7],
-      ['ads', 8],
+      ['ads', 1],
+      ['adult', 2],
+      ['aggressive', 3],
+      ['astrology', 4],
+      ['audio-video', 5],
+      ['celebrity', 6],
+      ['chat', 7],
+      ['dangerous_material', 8],
       ['dating', 9],
-      ['chat', 10],
-      ['gambling', 11]
+      ['ddos', 10],
+      ['dialer', 11],
+      ['download', 12],
+      ['drugs', 13],
+      ['gambling', 14],
+      ['games', 15],
+      ['hacking', 16],
+      ['lingerie', 17],
+      ['malware', 18],
+      ['marketingware', 19],
+      ['mixed_adult', 20],
+      ['phishing', 21],
+      ['redirector', 22],
+      ['sect', 23],
+      ['social_networks', 24],
+      ['special', 25],
+      ['sports', 26],
+      ['strict_redirector', 27],
+      ['strong_redirector', 28],
+      ['update', 29],
+      ['warez', 30]
     ];
 
     // Iterate over the blacklists and bulk insert into the DB
