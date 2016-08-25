@@ -1,7 +1,7 @@
 <?php
 /**
- * This command creates a default user with username: admin, pass: admin
- * and administration priviledges
+ * This command creates a default user with username: admin, pass: adminadmin
+ * and administration privileges
  *
  * @author George Dimosthenous
  * @author Alexander Phinikarides
@@ -28,9 +28,9 @@ class CreateusersController extends Controller {
     ]);
 
     $user->setAttributes([
-      'email' => 'admin@mycompany.com',
+      'email' => 'admin@t-nova.eu',
       'username' => 'admin',
-      'password' => 'admin',
+      'password' => 'adminadmin',
       'role'=>'admin'
     ]);
 
