@@ -1,6 +1,6 @@
 <?php
 /**
- * Helper for editting Squid's configuration file
+ * Helper for editing Squid's configuration file
  *
  * @author George Dimosthenous, Savvas Charalambides
  * @author Alexander Phinikarides
@@ -16,8 +16,8 @@ use app\models\Cachestatus;
 
 class Squid
 {
-  const SQUID_CONF = '/etc/squid/squid.conf'; // Squid's configuration file path
-  const SQUID_DEFAULT_CONF = '/home/proxyvnf/dashboard/squid/squid.conf'; // Squid's default configuration template
+  const SQUID_CONF = '/etc/squid/squid.conf';
+  const SQUID_DEFAULT_CONF = '/var/www/localhost/htdocs/dashboard/squid/squid.conf';
 
   /**
    * Reads configuration data from DB and writes it to Squid's configuration file
@@ -50,7 +50,7 @@ class Squid
         $delay_string .= "delay_access " . $count . " allow " . $group->name . "\n";
 
         $users = [];
-        foreach($group->users as $user){
+        foreach($group->users as $user) {
           if($user->blocked_at === NULL)
             array_push($users, $user->username);
         }
@@ -72,7 +72,7 @@ class Squid
     if(!empty($users_list))
       $acl_string .= "acl named proxy_auth " . $users_list;
 
-    if(Squid::write("# ACL LIST", "# ACL LIST END", $acl_string, Squid::SQUID_DEFAULT_CONF) === false)
+    if(Squid::write("# ACL LIST", "# ACL LIST END", $acl_string, Squid::SQUID_DEFAULT_CONF, Squid::SQUID_CONF) === false)
       return false;
 
     if(Squid::write("# ACCESS CONTROL", "# ACCESS CONTROL END", $access_string) === false)
@@ -102,7 +102,7 @@ class Squid
    */
   public static function start()
   {
-    $status = shell_exec('sudo systemctl start squid3');
+    $status = shell_exec('sudo /sbin/rc-service squid start');
 
     if($status)
     {
@@ -117,8 +117,45 @@ class Squid
           break;
       }
     }
-    return $status;
+    return $squid_status;
   }
+
+  /**
+   * Stops Squid server
+   * @return string
+   */
+  public static function stop()
+  {
+    $status = shell_exec('sudo /sbin/rc-service squid stop');
+
+    if($status)
+    {
+      $now = time();
+      $next = $now + 10;
+      while(1)
+      {
+        $squid_status = Squid::status();
+        if($squid_status === false)
+          break;
+        if(time() == $next)
+          break;
+      }
+    }
+    return $squid_status;
+  }
+
+    /**
+     * Gracefully stops Squid server
+     * @return string
+     */
+    public static function forceStop()
+    {
+        $a = array();
+        $code = '';
+        exec('sudo killall -15 squid', $a, $code);
+
+        return $code;
+    }
 
   /**
    * Force stops Squid server
@@ -134,30 +171,27 @@ class Squid
   }
 
   /**
-   * Stops Squid server
-   * @return string
-   */
-  public static function Stop()
-  {
-    $status = shell_exec('sudo systemctl stop squid3');
-
-    return $status;
-  }
-
-  /**
    * Restarts Squid server
    * @return string
    */
   public static function restart()
   {
-    $status = Squid::forceStop();
-    if($status === 0)
-      $status = '* Stopping Squid HTTP Proxy 3.x squid ...done.';
-    else
-      $status = 'Unable to stop Squid HTTP Proxy 3.x';
-    $status .= Squid::start();
+      $status = shell_exec('sudo /sbin/rc-service squid restart');
 
-    return $status;
+      if($status)
+      {
+          $now = time();
+          $next = $now + 10;
+          while(1)
+          {
+              $squid_status = Squid::status();
+              if($squid_status === true)
+                  break;
+              if(time() == $next)
+                  break;
+          }
+      }
+      return $squid_status;
   }
 
   /**
@@ -166,13 +200,13 @@ class Squid
    */
   public static function status()
   {
-    $status = shell_exec('sudo systemctl status squid3');
+    $status = shell_exec("sudo /bin/rc-status -a | grep squid | awk -F' ' '{print $3}' ");
 
     if($status !== NULL)
     {
-      if(stripos($status, 'is not') === false)
+      if(stripos($status, 'started') === true)
         $squid_status = true;
-      else
+      else if(stripos($status, 'stopped') == true)
         $squid_status = false;
     }
     else
