@@ -19,11 +19,11 @@ class m150803_143410_create_users_group_table extends Migration
             'comment' => Schema::TYPE_STRING,
         ], 'ENGINE=InnoDB');
 
-        $this->addColumn('users', 'delay_group_id', Schema::TYPE_INTEGER);
-        $this->addColumn('users', 'filtering_group_id', Schema::TYPE_INTEGER);
+        $this->addColumn('user', 'delay_group_id', Schema::TYPE_INTEGER);
+        $this->addColumn('user', 'filtering_group_id', Schema::TYPE_INTEGER);
 
-        $this->addForeignKey('FK_USER_FILTERING_GROUP', 'users', 'delay_group_id', 'delay_group', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('FK_USER_DELAY_GROUP', 'users', 'filtering_group_id', 'filtering_group', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('FK_USER_FILTERING_GROUP', 'user', 'delay_group_id', 'delay_group', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('FK_USER_DELAY_GROUP', 'user', 'filtering_group_id', 'filtering_group', 'id', 'CASCADE', 'CASCADE');
 
         $this->createTable('blacklist', [
             'id' => Schema::TYPE_PK,
