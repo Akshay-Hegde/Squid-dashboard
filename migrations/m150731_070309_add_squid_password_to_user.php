@@ -3,7 +3,7 @@
 use yii\db\Migration;
 use yii\db\Schema;
 
-class m150731_070309_add_squid_password_to_users extends Migration
+class m150731_070309_add_squid_password_to_user extends Migration
 {
     public function up()
     {

@@ -3,7 +3,7 @@
 use yii\db\Migration;
 use yii\db\Schema;
 
-class m150806_055120_edit_foreignkeys_users extends Migration
+class m150806_055120_edit_foreignkeys_user extends Migration
 {
     public function up()
     {

@@ -3,7 +3,7 @@
 use yii\db\Migration;
 use yii\db\Schema;
 
-class m150825_064239_add_anonymous_field_users extends Migration
+class m150825_064239_add_anonymous_field_user extends Migration
 {
     public function up()
     {
