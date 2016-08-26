@@ -132,9 +132,9 @@ class SiteController extends Controller
             $status = Squid::forceStop();
 
             if ($status === 0)
-                $status = '* Stopping Squid HTTP Proxy 3.x squid ...done.';
+                $status = '* Stopping Squid Proxy... done.';
             else
-                $status = 'Unable to stop Squid HTTP Proxy 3.x';
+                $status = 'Unable to stop Squid Proxy';
 
             Yii::$app->getSession()->setFlash('reload_message', $status);
         } else

@@ -12,11 +12,9 @@ return [
     'controllerNamespace' => 'app\commands',
     'modules' => [
         'gii' => 'yii\gii\Module',
-
         'user' => [
             'class' => 'dektrium\user\Module',
         ],
-
     ],
     'components' => [
         'cache' => [

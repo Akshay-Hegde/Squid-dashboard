@@ -91,6 +91,37 @@ class Squid
     }
 
     /**
+     * Writes configuration to Squid configuration file.
+     * @param string $start
+     * @param string $end
+     * @param string $conf the configuration directives to be written
+     * @param string $infile the configuration file path to read the configuration
+     * @param string $outfile the configuration file path to write the configuration
+     * @return boolean
+     */
+    private static function write($start, $end, $conf, $infile = Squid::SQUID_CONF, $outfile = Squid::SQUID_CONF)
+    {
+        $file = @file_get_contents($infile);
+
+        if ($file === false)
+            return false;
+
+        $pos_start = strpos($file, $start);
+        $pos_end = strpos($file, $end);
+
+        if ($pos_start === false || $pos_end === false)
+            return false;
+
+        $a = substr($file, 0, $pos_start + strlen($start));
+        $b = substr($file, $pos_end);
+
+        if (file_put_contents($outfile, $a . "\n" . $conf . "\n" . $b) === false)
+            return false;
+
+        return true;
+    }
+
+    /**
      * Starts Squid server
      * @return string
      */
@@ -109,6 +140,25 @@ class Squid
                     break;
             }
         }
+        return $squid_status;
+    }
+
+    /**
+     * Returns Squid's status
+     * @return bool
+     */
+    public static function status()
+    {
+        $status = shell_exec("sudo /bin/rc-status -a | grep squid | awk -F' ' '{print $3}' ");
+
+        if ($status !== NULL) {
+            if (stripos($status, 'started') === true)
+                $squid_status = true;
+            else if (stripos($status, 'stopped') == true)
+                $squid_status = false;
+        } else
+            $squid_status = false;
+
         return $squid_status;
     }
 
@@ -138,7 +188,7 @@ class Squid
      * Gracefully stops Squid server
      * @return string
      */
-    public static function forceStop()
+    public static function graceStop()
     {
         $a = array();
         $code = '';
@@ -180,55 +230,5 @@ class Squid
             }
         }
         return $squid_status;
-    }
-
-    /**
-     * Returns Squid's status
-     * @return bool
-     */
-    public static function status()
-    {
-        $status = shell_exec("sudo /bin/rc-status -a | grep squid | awk -F' ' '{print $3}' ");
-
-        if ($status !== NULL) {
-            if (stripos($status, 'started') === true)
-                $squid_status = true;
-            else if (stripos($status, 'stopped') == true)
-                $squid_status = false;
-        } else
-            $squid_status = false;
-
-        return $squid_status;
-    }
-
-    /**
-     * Writes configuration to Squid confifuration file.
-     * @param string $start
-     * @param string $end
-     * @param string $conf the configuration directives to be written
-     * @param string $infile the configuration file path to read the configuration
-     * @param string $outfile the configuration file path to write the configuration
-     * @return boolean
-     */
-    private static function write($start, $end, $conf, $infile = Squid::SQUID_CONF, $outfile = Squid::SQUID_CONF)
-    {
-        $file = @file_get_contents($infile);
-
-        if ($file === false)
-            return false;
-
-        $pos_start = strpos($file, $start);
-        $pos_end = strpos($file, $end);
-
-        if ($pos_start === false || $pos_end === false)
-            return false;
-
-        $a = substr($file, 0, $pos_start + strlen($start));
-        $b = substr($file, $pos_end);
-
-        if (file_put_contents($outfile, $a . "\n" . $conf . "\n" . $b) === false)
-            return false;
-
-        return true;
     }
 }

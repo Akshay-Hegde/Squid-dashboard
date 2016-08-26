@@ -32,13 +32,8 @@ class SquidGuard
 
         foreach ($groups as $group) {
             if (!empty($group->users)) {
-                /*
-                 * Preparing the filtering group definitions.
-
-                array_push($filtering_groups, sprintf(SquidGuard::FILTERING_GROUP_SPECIFICATION_TEMPLATE, $group->name, $group->getUsersStringSpaced()));
-
-                /*
-                 * Preparing the blacklists for this filetring group
+                /**
+                 * Preparing the blacklists for this filtering group
                  */
                 $blacklists = '!' . implode(' !', explode(',', $group->getBlacklistsNames()));
                 array_push($filtering_group_acls, sprintf(SquidGuard::FILTERING_GROUP_ACL_TEMPLATE, $group->name, $blacklists))
@@ -54,36 +49,6 @@ class SquidGuard
         }
 
         return true;
-    }
-
-    /**
-     * Starts Squid server
-     * @return string
-     */
-    public static function start()
-    {
-        $status = shell_exec('sudo /sbin/rc-service squid start');
-        return $status;
-    }
-
-    /**
-     * Stops Squid server
-     * @return string
-     */
-    public static function stop()
-    {
-        $status = shell_exec('sudo /sbin/rc-service squid stop');
-        return $status;
-    }
-
-    /**
-     * Restarts Squid server
-     * @return string
-     */
-    public static function restart()
-    {
-        $status = shell_exec('sudo /sbin/rc-service squid restart');
-        return $status;
     }
 
     /**
@@ -117,5 +82,35 @@ class SquidGuard
             return false;
         }
         return true;
+    }
+
+    /**
+     * Starts Squid server
+     * @return string
+     */
+    public static function start()
+    {
+        $status = shell_exec('sudo /sbin/rc-service squid start');
+        return $status;
+    }
+
+    /**
+     * Stops Squid server
+     * @return string
+     */
+    public static function stop()
+    {
+        $status = shell_exec('sudo /sbin/rc-service squid stop');
+        return $status;
+    }
+
+    /**
+     * Restarts Squid server
+     * @return string
+     */
+    public static function restart()
+    {
+        $status = shell_exec('sudo /sbin/rc-service squid restart');
+        return $status;
     }
 }
