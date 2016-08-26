@@ -6,7 +6,7 @@ After creating the basic application, follow these steps to prepare for the test
 
 1. Install Codeception if it's not yet installed:
 
-   ```
+   ```sh
    composer global require "codeception/codeception=2.0.*"
    composer global require "codeception/specify=*"
    composer global require "codeception/verify=*"
@@ -23,32 +23,32 @@ After creating the basic application, follow these steps to prepare for the test
 
 2. Install faker extension by running the following from template root directory where `composer.json` is:
 
-   ```
+   ```sh
    composer require --dev yiisoft/yii2-faker:*
    ```
 
 3. Create `yii2_basic_tests` database and update it by applying migrations (you may skip this step if you do not have created any migrations yet):
 
-   ```
+   ```sh
    codeception/bin/yii migrate
    ```
 
 4. Build the test suites:
 
-   ```
+   ```sh
    codecept build
    ```
 
 5. In order to be able to run acceptance tests you need to start a webserver. The simplest way is to use PHP built in
 webserver. In the `web` directory execute the following:
 
-   ```
+   ```sh
    php -S localhost:8080
    ```
 
 6. Now you can run the tests with the following commands:
 
-   ```
+   ```sh
    # run all available tests
    codecept run
    # run acceptance tests
@@ -65,7 +65,7 @@ Code coverage support
 By default, code coverage is disabled in `codeception.yml` configuration file, you should uncomment needed rows to be able
 to collect code coverage. You can run your tests and collect coverage with the following command:
 
-```
+```yml
 #collect coverage for all tests
 codecept run --coverage-html --coverage-xml
 
@@ -102,7 +102,7 @@ By default `c3_url` and `remote_config` setup correctly, you only need to copy a
 After that you should be able to collect code coverage from tests that run through `PhpBrowser` or `WebDriver` with same command
 as for other tests:
 
-```
+```sh
 #collect coverage from remote
 codecept run acceptance --coverage-html --coverage-xml
 ```

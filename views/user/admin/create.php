@@ -13,8 +13,8 @@ use dektrium\user\models\User;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Nav;
 use yii\helpers\Html;
-use yii\web\View;
 use yii\helpers\Url;
+use yii\web\View;
 
 /**
  * @var View $this
@@ -72,7 +72,7 @@ $this->title = Yii::t('user', 'Create a user account');
                     </div>
                     <?php $form = ActiveForm::begin([
                         'layout' => 'horizontal',
-                        'enableAjaxValidation'   => true,
+                        'enableAjaxValidation' => true,
                         'enableClientValidation' => false,
                         'fieldConfig' => [
                             'horizontalCssClasses' => [

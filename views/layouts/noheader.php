@@ -11,32 +11,33 @@ AppAsset::register($this);
 CustomAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
-<!DOCTYPE html>
-<html class="full" lang="<?= Yii::$app->language ?>">
-<head>
-	<meta charset="<?= Yii::$app->charset ?>"/>
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<?= Html::csrfMetaTags() ?>
-	<title><?= Html::encode($this->title) ?></title>
-	<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
-    <?php $this->head() ?>
-</head>
+    <!DOCTYPE html>
+    <html class="full" lang="<?= Yii::$app->language ?>">
+    <head>
+        <meta charset="<?= Yii::$app->charset ?>"/>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <?= Html::csrfMetaTags() ?>
+        <title><?= Html::encode($this->title) ?></title>
+        <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"
+              type="text/css">
+        <link href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+        <?php $this->head() ?>
+    </head>
 
-<body>
-	<?php $this->beginBody() ?>
+    <body>
+    <?php $this->beginBody() ?>
     <img src="/img/background.jpg" class="bg">
-		<?= $content ?>
-	<?php $this->endBody() ?>
-	<script>
-      $(function () {
-        $('input').iCheck({
-          checkboxClass: 'icheckbox_square-blue',
-          radioClass: 'iradio_square-blue',
-          increaseArea: '20%' // optional
+    <?= $content ?>
+    <?php $this->endBody() ?>
+    <script>
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
         });
-      });
     </script>
-</body>
-</html>
+    </body>
+    </html>
 <?php $this->endPage() ?>

@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\DetailView;
-use yii\helpers\Url;
 use kartik\grid\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Blacklist */
@@ -24,29 +24,29 @@ $this->title = $model->name;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'export' => false,
-        'pjax'=> true,
-        'pjaxSettings'=>[
-            'neverTimeout'=>true,
+        'pjax' => true,
+        'pjaxSettings' => [
+            'neverTimeout' => true,
             'options' => ['enablePushState' => false],
         ],
-         'pager' => [
+        'pager' => [
             'firstPageLabel' => 'First',
             'lastPageLabel' => 'Last',
-            'maxButtonCount' =>10
+            'maxButtonCount' => 10
         ],
         'responsive' => true,
-        'headerRowOptions'=>['class'=>'kartik-sheet-style'],
-        'toolbar'=> [
+        'headerRowOptions' => ['class' => 'kartik-sheet-style'],
+        'toolbar' => [
             '{toggleData}',
         ],
-        'panel'=>[
-            'type'=>GridView::TYPE_PRIMARY,
-            'heading'=>$this->title
+        'panel' => [
+            'type' => GridView::TYPE_PRIMARY,
+            'heading' => $this->title
         ],
-        'layout'  => "{items}\n{pager}",
+        'layout' => "{items}\n{pager}",
         'columns' => [
-			['class' => 'yii\grid\SerialColumn'],
-			'domain',
-		],
+            ['class' => 'yii\grid\SerialColumn'],
+            'domain',
+        ],
     ]); ?>
 </section>

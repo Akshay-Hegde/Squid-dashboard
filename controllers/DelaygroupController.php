@@ -2,14 +2,14 @@
 
 namespace app\controllers;
 
-use Yii;
 use app\models\DelayGroup;
 use app\models\DelayGroupSearch;
 use app\models\User;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 /**
  * DelayGroupController implements the CRUD actions for DelayGroup model.
@@ -79,19 +79,15 @@ class DelaygroupController extends Controller
 
         $users = User::find()->select(['id', 'username', 'delay_group_id'])->all();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) 
-        {
-            if(!empty($model->users_input)) 
-            {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if (!empty($model->users_input)) {
                 $array = explode(',', $model->users_input);
-                foreach ($array as $user_id)
-                {
+                foreach ($array as $user_id) {
                     $u = User::findOne((int)$user_id);
 
-                    if($u !== NULL)
-                    {
+                    if ($u !== NULL) {
                         $u->delay_group_id = $model->id;
-                        $u->scenario ='create';
+                        $u->scenario = 'create';
                         $u->save();
                     }
                 }
@@ -99,9 +95,7 @@ class DelaygroupController extends Controller
 
             Yii::$app->getSession()->setFlash('DGsuccess', 'Group has been successfully created');
             return $this->redirect(['view', 'id' => $model->id]);
-        } 
-        else 
-        {
+        } else {
             return $this->render('create', [
                 'model' => $model,
                 'users' => $users
@@ -120,54 +114,46 @@ class DelaygroupController extends Controller
         $model = $this->findModel($id);
 
         // get selected users
-        $selected_users = $model->users; 
+        $selected_users = $model->users;
         $sel_users_array = [];
         foreach ($selected_users as $user) {
             array_push($sel_users_array, $user->id);
         }
 
         // get un-selected users
-        $users = User::find() 
+        $users = User::find()
             ->where(['not in', 'id', $sel_users_array])
             ->all();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) 
-        {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $array = explode(',', $model->users_input);
-            foreach ($array as $user_id)
-            {
+            foreach ($array as $user_id) {
                 $key = array_search($user_id, $sel_users_array);
-                if($key !== false)
+                if ($key !== false)
                     unset($sel_users_array[$key]);
-                else
-                {
+                else {
                     $u = User::findOne((int)$user_id);
 
-                    if($u !== NULL)
-                    {
+                    if ($u !== NULL) {
                         $u->delay_group_id = $model->id;
-                        $u->scenario ='create';
+                        $u->scenario = 'create';
                         $u->save();
                     }
                 }
             }
-            foreach ($sel_users_array as $id)
-            {
+            foreach ($sel_users_array as $id) {
                 $u = User::findOne((int)$id);
 
-                if($u !== NULL)
-                {
+                if ($u !== NULL) {
                     $u->delay_group_id = NULL;
-                    $u->scenario ='create';
+                    $u->scenario = 'create';
                     $u->save();
                 }
             }
 
             Yii::$app->getSession()->setFlash('DGsuccess', 'Group has been successfully updated');
             return $this->redirect(['view', 'id' => $model->id]);
-        } 
-        else 
-        {
+        } else {
             return $this->render('update', [
                 'model' => $model,
                 'users' => $users,

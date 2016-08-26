@@ -9,10 +9,19 @@ these in effect.
 
 ## Requirements
 
-* [Virtual proxy build](https://github.com/T-NOVA/proxy-build) deployed on a host
+* [vPXaaS](https://github.com/T-NOVA/proxy-build) VM deployed on a host
 
 
 ## Changelog
+
+v1.3  Refactoring
+
+  Enhancements:
+  * secure service control
+  * code refactoring
+
+  Fixes:
+  * works on Alpine Linux
 
 v1.2  Update
 

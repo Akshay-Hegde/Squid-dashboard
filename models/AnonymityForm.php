@@ -16,7 +16,7 @@ class AnonymityForm extends Model
     public function rules()
     {
         return [
-        	[['users', 'anonymous_users'], 'safe']
+            [['users', 'anonymous_users'], 'safe']
         ];
     }
 }

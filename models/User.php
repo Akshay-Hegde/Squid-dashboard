@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * This model overrides the User model defined in yii2-user module
  * methods overrided:
  * -> beforeSave(),
@@ -8,13 +8,13 @@
  * -> attributeLabels()
  *
  * @author George Dimosthenous
- * 
+ *
  **/
 
 namespace app\models;
 
-use dektrium\user\models\User as BaseUser;
 use dektrium\user\helpers\Password;
+use dektrium\user\models\User as BaseUser;
 
 class User extends BaseUser
 {

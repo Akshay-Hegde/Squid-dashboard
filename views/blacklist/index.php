@@ -1,7 +1,7 @@
 <?php
 
-use yii\helpers\Html;
 use kartik\grid\GridView;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -17,33 +17,33 @@ $this->title = 'Blacklists';
         <li class="active"><?= Html::encode($this->title); ?></li>
     </ol>
 </section>
-<br />
+<br/>
 <section class="content">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'export' => false,
-        'pjax'=> true,
-        'pjaxSettings'=>[
-            'neverTimeout'=>true,
+        'pjax' => true,
+        'pjaxSettings' => [
+            'neverTimeout' => true,
             'options' => ['enablePushState' => false],
         ],
-         'pager' => [
+        'pager' => [
             'firstPageLabel' => 'First',
             'lastPageLabel' => 'Last',
-            'maxButtonCount' =>10
+            'maxButtonCount' => 10
         ],
         'responsive' => true,
-        'headerRowOptions'=>['class'=>'kartik-sheet-style'],
-        'toolbar'=> [
+        'headerRowOptions' => ['class' => 'kartik-sheet-style'],
+        'toolbar' => [
             '{toggleData}',
         ],
-        'panel'=>[
-            'type'=>GridView::TYPE_PRIMARY,
-            'heading'=>$this->title
+        'panel' => [
+            'type' => GridView::TYPE_PRIMARY,
+            'heading' => $this->title
         ],
 
-        'layout'  => "{items}\n{pager}",
+        'layout' => "{items}\n{pager}",
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'name',
@@ -55,7 +55,7 @@ $this->title = 'Blacklists';
                         return Html::a('<i class="glyphicon glyphicon-eye-open"></i>', $url, [
                             'class' => 'btn btn-xs btn-success',
                             'title' => Yii::t('yii', 'View'),
-                            'data-pjax'=>0
+                            'data-pjax' => 0
                         ]);
                     }
                 ]

@@ -2,15 +2,15 @@
 
 namespace app\controllers;
 
-use Yii;
 use app\models\Blacklist;
-use app\models\BlacklistSearch;
 use app\models\BlacklistDomainsSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use app\models\BlacklistSearch;
+use Yii;
 use yii\base\Object;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 /**
  * BlacklistController implements the CRUD actions for Blacklist model.
@@ -56,13 +56,13 @@ class BlacklistController extends Controller
      */
     public function actionView($id)
     {
-    	$model = $this->findModel($id);
-    	$searchModel = new BlacklistDomainsSearch();
-    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$model->id);
+        $model = $this->findModel($id);
+        $searchModel = new BlacklistDomainsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $model->id);
         return $this->render('view', [
             'model' => $model,
-        	'searchModel' => $searchModel,
-        	'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

@@ -2,14 +2,15 @@
 
 namespace app\controllers;
 
-use Yii;
-//use app\models\Cache;
-//use app\models\CacheForm;
 use app\models\Cachestatus;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
+
+//use app\models\Cache;
+//use app\models\CacheForm;
 
 /**
  * AnonymousController applies anonymity to users.
@@ -37,8 +38,7 @@ class CacheController extends Controller
     {
         $cachestatus = Cachestatus::findOne(1);
 
-        if($cachestatus->load(Yii::$app->getRequest()->post()) && $cachestatus->save())
-        {
+        if ($cachestatus->load(Yii::$app->getRequest()->post()) && $cachestatus->save()) {
             Yii::$app->getSession()->setFlash('Csuccess', 'Caching status has been successfully updated');
             return $this->refresh();
         }

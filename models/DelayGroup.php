@@ -38,12 +38,12 @@ class DelayGroup extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 255],
             [['bandwidth', 'users_input'], 'safe'],
             [['bandwidth'], function ($attr) {
-                if($this->bandwidth == 1)
-                    if(empty($this->rate))
+                if ($this->bandwidth == 1)
+                    if (empty($this->rate))
                         $this->addError('rate', 'Rate cannot be blank or 0');
-                    if($this->rate < 0)
-                        $this->addError('rate', 'Rate must be greater than zero');
-                },
+                if ($this->rate < 0)
+                    $this->addError('rate', 'Rate must be greater than zero');
+            },
             ],
         ];
     }
@@ -71,14 +71,12 @@ class DelayGroup extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
-        if (parent::beforeSave($insert))
-        {
-            if($this->bandwidth == 0)
+        if (parent::beforeSave($insert)) {
+            if ($this->bandwidth == 0)
                 $this->rate = -1;
 
             return true;
-        }
-        else
+        } else
             return false;
     }
 
@@ -88,7 +86,7 @@ class DelayGroup extends \yii\db\ActiveRecord
     public function getUsersString()
     {
         $users = [];
-        foreach ($this->users as $user) 
+        foreach ($this->users as $user)
             array_push($users, $user->username);
 
         return implode(', ', $users);

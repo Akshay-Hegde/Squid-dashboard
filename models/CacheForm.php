@@ -16,7 +16,7 @@ class CacheForm extends Model
     public function rules()
     {
         return [
-        	[['patterns', 'options'], 'safe']
+            [['patterns', 'options'], 'safe']
         ];
     }
 }

@@ -2,18 +2,17 @@
 
 namespace app\controllers;
 
-use Yii;
-use app\models\FilteringGroup;
-use app\models\FilteringGroupSearch;
 use app\models\Blacklist;
 use app\models\Blacklistsfilteringgroup;
+use app\models\FilteringGroup;
+use app\models\FilteringGroupSearch;
 use app\models\User;
-use app\models\BlacklistSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use Yii;
 use yii\base\Object;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 /**
  * FilteringGroupController implements the CRUD actions for FilteringGroup model.
@@ -23,20 +22,20 @@ class FilteringgroupController extends Controller
     public function behaviors()
     {
         return [
-    		'access' => [
-				'class' => AccessControl::className(),
-				'only' => ['index', 'view', 'create', 'update', 'delete'],
-				'rules' => [
-					[
-						'actions' => ['index', 'view', 'create', 'update', 'delete'],
-						'allow' => true,
-						'roles' => ['@'],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
                         'matchCallback' => function () {
                             return Yii::$app->user->identity->getIsAdmin();
                         }
-					],
-				],
-    		],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -83,35 +82,32 @@ class FilteringgroupController extends Controller
         $model = new FilteringGroup();
         $users = User::find()->select(['id', 'username', 'filtering_group_id'])->all();
         $blists = Blacklist::find()->select(['id', 'name'])->all();
-        
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        	
-        	$selected_blists = $model->users_input_bl;
-        	foreach ($selected_blists as $b_id){
-        		$blistFGmodel = new Blacklistsfilteringgroup();
-        		$blistFGmodel->filtering_group_id = $model->id;
-        		$blistFGmodel->blacklist_id = (int)$b_id;
-        		$blistFGmodel->save();
-        	}
-        	
-        	if(!empty($model->users_input))
-        	{
-        		$array = explode(',', $model->users_input);
-        		foreach ($array as $user_id)
-        		{
-        			$u = User::findOne((int)$user_id);
-        			if($u !== NULL)
-        			{
-        				$u->filtering_group_id = $model->id;
-        				$u->scenario ='create';
-        				$u->save();
-        			}
-        		}
-        	}
-        	
-        	Yii::$app->getSession()->setFlash('FGsuccess', 'Website Filtering Group has been successfully created');
-        	
+
+            $selected_blists = $model->users_input_bl;
+            foreach ($selected_blists as $b_id) {
+                $blistFGmodel = new Blacklistsfilteringgroup();
+                $blistFGmodel->filtering_group_id = $model->id;
+                $blistFGmodel->blacklist_id = (int)$b_id;
+                $blistFGmodel->save();
+            }
+
+            if (!empty($model->users_input)) {
+                $array = explode(',', $model->users_input);
+                foreach ($array as $user_id) {
+                    $u = User::findOne((int)$user_id);
+                    if ($u !== NULL) {
+                        $u->filtering_group_id = $model->id;
+                        $u->scenario = 'create';
+                        $u->save();
+                    }
+                }
+            }
+
+            Yii::$app->getSession()->setFlash('FGsuccess', 'Website Filtering Group has been successfully created');
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -131,73 +127,68 @@ class FilteringgroupController extends Controller
         $model = $this->findModel($id);
         $users = User::find()->select(['id', 'username', 'delay_group_id'])->all();
         $blists = Blacklist::find()->select(['id', 'name'])->all();
-        
+
         $selected_bls = [];
-        foreach ($model->blacklistsFilteringGroups as $blid){
-        	array_push($selected_bls, (int)$blid->blacklist_id);
+        foreach ($model->blacklistsFilteringGroups as $blid) {
+            array_push($selected_bls, (int)$blid->blacklist_id);
         }
-        
+
         // get selected users
         $selected_users = $model->users;
         $sel_users_array = [];
         foreach ($selected_users as $user) {
-        	array_push($sel_users_array, $user->id);
+            array_push($sel_users_array, $user->id);
         }
 
         // get un-selected users
         $users = User::find()
-        ->where(['not in', 'id', $sel_users_array])
-        ->all();
-        
+            ->where(['not in', 'id', $sel_users_array])
+            ->all();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        	
-        	/*
-        	 * If the user made changes to the group's blacklists:
-        	 * 1. Deleting all entries in the blacklists_filtering_group table for the specific group.
-        	 * 2. Update the blacklists_filtering_group table with the user's new selections.
-        	 * 
-        	 */
-        	$selected_blists = $model->users_input_bl;
-        	print_r($selected_blists);
-        	if ($selected_bls != $selected_blists){
-	        	Blacklistsfilteringgroup::deleteAll(['filtering_group_id' => $model->id]);
-	        	foreach ($selected_blists as $b_id){
-	        		$blistFGmodel = new Blacklistsfilteringgroup();
-	        		$blistFGmodel->filtering_group_id = $model->id;
-	        		$blistFGmodel->blacklist_id = (int)$b_id;
-	        		$blistFGmodel->save();
-	        	}
-        	}
-        	
-        	/*
-        	 * Updating the users that are assigned to this filtering group
-        	 */
-        	$array = explode(',', $model->users_input);
-            foreach ($array as $user_id)
-            {
+
+            /*
+             * If the user made changes to the group's blacklists:
+             * 1. Deleting all entries in the blacklists_filtering_group table for the specific group.
+             * 2. Update the blacklists_filtering_group table with the user's new selections.
+             *
+             */
+            $selected_blists = $model->users_input_bl;
+            print_r($selected_blists);
+            if ($selected_bls != $selected_blists) {
+                Blacklistsfilteringgroup::deleteAll(['filtering_group_id' => $model->id]);
+                foreach ($selected_blists as $b_id) {
+                    $blistFGmodel = new Blacklistsfilteringgroup();
+                    $blistFGmodel->filtering_group_id = $model->id;
+                    $blistFGmodel->blacklist_id = (int)$b_id;
+                    $blistFGmodel->save();
+                }
+            }
+
+            /*
+             * Updating the users that are assigned to this filtering group
+             */
+            $array = explode(',', $model->users_input);
+            foreach ($array as $user_id) {
                 $key = array_search($user_id, $sel_users_array);
-                if($key !== false)
+                if ($key !== false)
                     unset($sel_users_array[$key]);
-                else
-                {
+                else {
                     $u = User::findOne((int)$user_id);
 
-                    if($u !== NULL)
-                    {
+                    if ($u !== NULL) {
                         $u->filtering_group_id = $model->id;
-                        $u->scenario ='create';
+                        $u->scenario = 'create';
                         $u->save();
                     }
                 }
             }
-            foreach ($sel_users_array as $id)
-            {
+            foreach ($sel_users_array as $id) {
                 $u = User::findOne((int)$id);
 
-                if($u !== NULL)
-                {
+                if ($u !== NULL) {
                     $u->filtering_group_id = NULL;
-                    $u->scenario ='create';
+                    $u->scenario = 'create';
                     $u->save();
                 }
             }
@@ -206,7 +197,7 @@ class FilteringgroupController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
-                'model' => $model, 'blists' => $blists, 'users' => $users,'selected_users' => $selected_users, 'selected_bls' => $selected_bls      
+                'model' => $model, 'blists' => $blists, 'users' => $users, 'selected_users' => $selected_users, 'selected_bls' => $selected_bls
             ]);
         }
     }

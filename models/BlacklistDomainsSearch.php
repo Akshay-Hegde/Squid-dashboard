@@ -5,7 +5,6 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\BlacklistDomains;
 
 /**
  * BlacklistDomainsSearch represents the model behind the search form about `app\models\BlacklistDomains`.
@@ -39,9 +38,9 @@ class BlacklistDomainsSearch extends BlacklistDomains
      *
      * @return ActiveDataProvider
      */
-    public function search($params,$blist_id)
+    public function search($params, $blist_id)
     {
-        $query = BlacklistDomains::find()->where(['blacklist_id'=>$blist_id]);
+        $query = BlacklistDomains::find()->where(['blacklist_id' => $blist_id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -1,7 +1,7 @@
 <?php
 
-use yii\helpers\Html;
 use kartik\grid\GridView;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -17,7 +17,7 @@ $this->title = 'Website Filtering Groups';
         <li class="active"><?= Html::encode($this->title); ?></li>
     </ol>
 </section>
-<br />
+<br/>
 <section class="content">
     <?php if (Yii::$app->getSession()->hasFlash('FGsuccess')): ?>
         <div class="alert alert-success">
@@ -30,41 +30,41 @@ $this->title = 'Website Filtering Groups';
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'export' => false,
-        'pjax'=> true,
-        'pjaxSettings'=>[
-            'neverTimeout'=>true,
+        'pjax' => true,
+        'pjaxSettings' => [
+            'neverTimeout' => true,
             'options' => ['enablePushState' => false],
         ],
         'responsive' => true,
-        'headerRowOptions'=>['class'=>'kartik-sheet-style'],
-        'toolbar'=> [
-            ['content'=>
-                Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], ['data-pjax'=>0, 'class' => 'btn btn-success']).' '.
-                Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['index'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>'Reset Table'])
+        'headerRowOptions' => ['class' => 'kartik-sheet-style'],
+        'toolbar' => [
+            ['content' =>
+                Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], ['data-pjax' => 0, 'class' => 'btn btn-success']) . ' ' .
+                Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['index'], ['data-pjax' => 0, 'class' => 'btn btn-default', 'title' => 'Reset Table'])
             ],
             '{toggleData}',
         ],
-        'panel'=>[
-            'type'=>GridView::TYPE_PRIMARY,
-            'heading'=>$this->title
+        'panel' => [
+            'type' => GridView::TYPE_PRIMARY,
+            'heading' => $this->title
         ],
 
-        'layout'  => "{items}\n{pager}",
+        'layout' => "{items}\n{pager}",
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'name',
-			[
+            [
                 'header' => 'Users',
                 'value' => function ($model, $key, $index, $widget) {
                     return $model->getUsersString();
                 },
             ],
             [
-            'header' => 'Blocked Content',
-            'value' => function ($model, $key, $index, $widget) {
-            	return $model->getBlacklistsString();
-            },
-            'format'=>'html',
+                'header' => 'Blocked Content',
+                'value' => function ($model, $key, $index, $widget) {
+                    return $model->getBlacklistsString();
+                },
+                'format' => 'html',
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
@@ -74,14 +74,14 @@ $this->title = 'Website Filtering Groups';
                         return Html::a('<i class="glyphicon glyphicon-eye-open"></i>', $url, [
                             'class' => 'btn btn-xs btn-success',
                             'title' => Yii::t('yii', 'View'),
-                            'data-pjax'=>0
+                            'data-pjax' => 0
                         ]);
                     },
                     'update' => function ($url, $model) {
                         return Html::a('<i class="glyphicon glyphicon-wrench"></i>', $url, [
                             'class' => 'btn btn-xs btn-info',
                             'title' => Yii::t('yii', 'Update'),
-                            'data-pjax'=>0
+                            'data-pjax' => 0
                         ]);
                     },
                     'delete' => function ($url, $model) {
@@ -90,7 +90,7 @@ $this->title = 'Website Filtering Groups';
                             'data-method' => 'post',
                             'data-confirm' => Yii::t('user', 'Are you sure to delete this group?'),
                             'title' => Yii::t('yii', 'Delete'),
-                            'data-pjax'=>0
+                            'data-pjax' => 0
                         ]);
                     },
                 ]

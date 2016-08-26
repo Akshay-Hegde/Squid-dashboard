@@ -2,19 +2,18 @@
 
 namespace app\controllers;
 
-use Yii;
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 use app\helpers\Squid;
 use app\helpers\SquidGuard;
-use app\models\User;
 use app\models\Blacklist;
+use app\models\Cachestatus;
+use app\models\ContactForm;
 use app\models\DelayGroup;
 use app\models\FilteringGroup;
-use app\models\Cachestatus;
+use app\models\User;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\Controller;
 
 class SiteController extends Controller
 {
@@ -78,77 +77,67 @@ class SiteController extends Controller
 
     public function actionReloadsquid()
     {
-        if(Squid::status())
-        {
+        if (Squid::status()) {
             $status = Squid::writeconfig();
 
-            if(!$status)
-            {
-                Yii::$app->getSession()->setFlash('reload_message', 'Unable to write to configuration file'); 
+            if (!$status) {
+                Yii::$app->getSession()->setFlash('reload_message', 'Unable to write to configuration file');
                 return $this->redirect('index');
             }
-            
+
             $status = SquidGuard::writeconfig();
-             
-            if(!$status)
-            {
-            	Yii::$app->getSession()->setFlash('reload_message', 'Unable to write to configuration file');
-            	return $this->redirect('index');
+
+            if (!$status) {
+                Yii::$app->getSession()->setFlash('reload_message', 'Unable to write to configuration file');
+                return $this->redirect('index');
             }
 
             $status = Squid::restart();
 
-            Yii::$app->getSession()->setFlash('reload_message', $status); 
-        }
-        else
+            Yii::$app->getSession()->setFlash('reload_message', $status);
+        } else
             Yii::$app->getSession()->setFlash('warning_message', 'Please start Squid Proxy first');
         return $this->redirect('index');
     }
 
     public function actionStartsquid()
     {
-        if(!Squid::status())
-        {
+        if (!Squid::status()) {
             $status = Squid::writeconfig();
 
-            if(!$status)
-            {
-                Yii::$app->getSession()->setFlash('reload_message', 'Unable to write to configuration file'); 
+            if (!$status) {
+                Yii::$app->getSession()->setFlash('reload_message', 'Unable to write to configuration file');
                 return $this->redirect('index');
             }
-            
+
             $status = SquidGuard::writeconfig();
-            
-            if(!$status)
-            {
-            	Yii::$app->getSession()->setFlash('reload_message', 'Unable to write to configuration file');
-            	return $this->redirect('index');
+
+            if (!$status) {
+                Yii::$app->getSession()->setFlash('reload_message', 'Unable to write to configuration file');
+                return $this->redirect('index');
             }
-            
+
 
             $status = Squid::start();
 
-            Yii::$app->getSession()->setFlash('reload_message', $status); 
-        }
-        else
+            Yii::$app->getSession()->setFlash('reload_message', $status);
+        } else
             Yii::$app->getSession()->setFlash('warning_message', 'Squid Proxy is already running');
         return $this->redirect('index');
     }
 
     public function actionStopsquid()
     {
-        if(Squid::status())
-        {
+        if (Squid::status()) {
             $status = Squid::forceStop();
 
-            if($status === 0)
+            if ($status === 0)
                 $status = '* Stopping Squid HTTP Proxy 3.x squid ...done.';
             else
                 $status = 'Unable to stop Squid HTTP Proxy 3.x';
 
-            Yii::$app->getSession()->setFlash('reload_message', $status); 
-        }
-        else
+            Yii::$app->getSession()->setFlash('reload_message', $status);
+        } else
             Yii::$app->getSession()->setFlash('warning_message', 'Squid Proxy is not running');
         return $this->redirect('index');
     }

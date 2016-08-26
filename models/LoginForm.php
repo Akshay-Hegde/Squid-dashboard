@@ -1,16 +1,16 @@
 <?php
-/** 
+/**
  * This model overrides the LoginForm model defined in yii2-user module
  * methods overrided:
  * -> rules(),
  *
  * @author George Dimosthenous
- * 
+ *
  **/
 namespace app\models;
 
-use dektrium\user\models\LoginForm as BaseLoginForm;
 use dektrium\user\helpers\Password;
+use dektrium\user\models\LoginForm as BaseLoginForm;
 
 class LoginForm extends BaseLoginForm
 {
@@ -23,8 +23,7 @@ class LoginForm extends BaseLoginForm
             'passwordValidate' => ['password', function ($attribute) {
                 if ($this->user === null || !Password::validate($this->password, $this->user->password_hash)) {
                     $this->addError($attribute, \Yii::t('user', 'Invalid login or password'));
-                }
-                elseif (!$this->user->isAdmin) {
+                } elseif (!$this->user->isAdmin) {
                     $this->addError($attribute, \Yii::t('user', 'Only administrators are able to access this area'));
                 }
             }],
@@ -36,7 +35,7 @@ class LoginForm extends BaseLoginForm
                     }
                     if ($this->user->getIsBlocked()) {
                         $this->addError($attribute, \Yii::t('user', 'Your account has been blocked'));
-                    }   
+                    }
                 }
             }],
             'rememberMe' => ['rememberMe', 'boolean'],

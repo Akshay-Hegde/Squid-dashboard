@@ -100,51 +100,53 @@ div.required label:after {
     min-height: 100px;
     min-width: 200px;
 }
-.checkbox label{
+
+.checkbox label {
     padding-left: 0;
 }
 
 img.bg {
-  /* Set rules to fill background */
-  min-height: 100%;
-  min-width: 1280px;
-    
-  /* Set up proportionate scaling */
-  width: 100%;
-  height: auto;
-    
-  /* Set up positioning */
-  position: fixed;
-  top: 0;
-  left: 0;
-  opacity: 0.5;
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 1280px;
+
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0.5;
 }
 
-@media screen and (max-width: 1024px) { /* Specific to this particular image */
-  img.bg {
-    left: 50%;
-    margin-left: -512px;   /* 50% */
-  }
+@media screen and (max-width: 1024px) {
+    /* Specific to this particular image */
+    img.bg {
+        left: 50%;
+        margin-left: -512px; /* 50% */
+    }
 }
-.login-box{
+
+.login-box {
     margin: auto;
     padding-top: 7%;
 }
 
-.login-box-body{
+.login-box-body {
     background-color: transparent;
     color: #3A2D2D;
 }
 
-
-.btn-login{
+.btn-login {
     background-color: #2D6390;
 }
 
-.login-logo{
+.login-logo {
     color: #250303;
 }
 
-#filteringgroup-users_input_bl label:after{
+#filteringgroup-users_input_bl label:after {
     content: '';
 }
