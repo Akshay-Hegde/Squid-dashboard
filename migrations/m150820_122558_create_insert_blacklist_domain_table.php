@@ -55,7 +55,7 @@ class m150820_122558_create_insert_blacklist_domain_table extends Migration
 
         // Iterate over the blacklists and bulk insert into the DB
         foreach ($blType as $type) {
-            $handle = fopen("/etc/squidGuard/blacklists/" . $type[0] . "/domains", "r");
+            $handle = fopen("/var/lib/squidguard/db/" . $type[0] . "/domains", "r");
             if ($handle) {
                 $bulkInsertArray = [];
                 $recordNum = 0;
